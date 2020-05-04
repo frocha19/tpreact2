@@ -5,7 +5,7 @@ public class DTO {
 	private String instrumento;
 	private String marca;
 	private String modelo;
-	private byte[] imagen;
+	private String imagen;
 	private String precio;
 	private String costoEnvio;
 	private String cantidadVendida;
@@ -43,11 +43,11 @@ public class DTO {
 		this.modelo = modelo;
 	}
 
-	public byte[] getImagen() {
+	public String getImagen() {
 		return imagen;
 	}
 
-	public void setImagen(byte[] imagen) {
+	public void setImagen(String imagen) {
 		this.imagen = imagen;
 	}
 

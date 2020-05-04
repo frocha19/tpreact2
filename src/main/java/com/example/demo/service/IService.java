@@ -1,10 +1,15 @@
 package com.example.demo.service;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.example.demo.dto.DTO;
 import com.example.demo.entities.Instrumento;
 import com.example.demo.repository.IRepository;
@@ -108,6 +113,26 @@ public class IService {
 		try {
 			repository.deleteById(id);
 			return true;
+		} catch (Exception e) {
+			throw new Exception();
+		}
+	}
+
+	// Metodos Agregados
+	public void saveImg(MultipartFile imageFile) throws Exception {
+		String folder = "/images/";
+		try {
+			byte[] bytes = imageFile.getBytes();
+			Path path = Paths.get(folder + imageFile.getOriginalFilename());
+			Files.write(path, bytes);
+		} catch (Exception e) {
+			throw new Exception();
+		}
+	}
+
+	public void deleteImage(String path) throws Exception {
+		try {
+			Files.deleteIfExists(Paths.get(path));
 		} catch (Exception e) {
 			throw new Exception();
 		}

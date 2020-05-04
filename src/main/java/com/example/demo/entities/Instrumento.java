@@ -18,7 +18,7 @@ public class Instrumento {
 	@Column(name = "instrumento_modelo")
 	private String modelo;
 	@Column(name = "instrumento_iamgen")
-	private byte[] imagen;
+	private String imagen;
 	@Column(name = "instrumento_precio")
 	private String precio;
 	@Column(name = "instrumento_costoEnvio")
@@ -32,7 +32,7 @@ public class Instrumento {
 		super();
 	}
 
-	public Instrumento(int id, String instrumento, String marca, String modelo, byte[] imagen, String precio,
+	public Instrumento(int id, String instrumento, String marca, String modelo, String imagen, String precio,
 			String costoEnvio, String cantidadVendida, String descripcion) {
 		super();
 		this.id = id;
@@ -78,11 +78,11 @@ public class Instrumento {
 		this.modelo = modelo;
 	}
 
-	public byte[] getImagen() {
+	public String getImagen() {
 		return imagen;
 	}
 
-	public void setImagen(byte[] imagen) {
+	public void setImagen(String imagen) {
 		this.imagen = imagen;
 	}
 
