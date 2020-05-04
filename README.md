@@ -2,4 +2,3 @@
 * Importaciones:
     - npm install --save react-router-dom
     - npm install --save react-bootstrap bootstrap
-    - npm install --save firebase
