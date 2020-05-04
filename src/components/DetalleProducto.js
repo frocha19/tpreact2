@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { instrumentos } from "../datos/instrumentos.json";
 import Navigation from "./Navigation";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -7,21 +6,35 @@ import Col from "react-bootstrap/Col";
 import Nav from "react-bootstrap/Nav";
 import Card from "react-bootstrap/Card";
 import Envio from "./Envio";
+import { Service } from "../services/service";
 
 class DetalleProducto extends Component {
   constructor() {
     super();
-    this.state = {
-      instrumentos,
-    };
+    this.Service = new Service();
+  }
+
+  state = {
+    instrumento: {
+      id: "",
+      instrumento: "",
+      marca: "",
+      modelo: "",
+      imagen: "",
+      precio: "",
+      costoEnvio: "",
+      cantidadVendida: "",
+      descripcion: "",
+    },
+  };
+
+  componentDidMount() {
+    this.Service.getOne(this.props.match.params.id).then((data) => {
+      this.setState({ instrumento: data });
+    });
   }
 
   render() {
-    console.log(this.props);
-    const parametroId = this.props.match.params.id;
-    const instrumentoEncontrado = instrumentos.filter(
-      (instrumento) => instrumento.id === parametroId
-    );
     return (
       <React.Fragment>
         <Navigation></Navigation>
@@ -30,44 +43,39 @@ class DetalleProducto extends Component {
           <Container>
             <Row>
               <Col>
-                <img
-                  className="imagenDetalle"
-                  src={require(`../assets/images/${instrumentoEncontrado[0].imagen}`)}
-                />
+                <img className="imagenDetalle" src={this.state.instrumento.imagen} alt="Imagen del Producto" />
                 <h6 className="descripcion">
                   Descripcion:
                   <br />
                   <br />
-                  {instrumentoEncontrado[0].descripcion}
+                  {this.state.instrumento.descripcion}
                 </h6>
               </Col>
               <Col className="colDos">
                 <Row className="cantidadVendidos">
-                  {instrumentoEncontrado[0].cantidadVendida} vendidos
+                  {this.state.instrumento.cantidadVendida} vendidos
                 </Row>
                 <br />
                 <Row>
-                  <h2>{instrumentoEncontrado[0].instrumento}</h2>
+                  <h2>{this.state.instrumento.instrumento}</h2>
                 </Row>
                 <br />
                 <Row>
-                  <h3>Precio:${instrumentoEncontrado[0].precio}</h3>
+                  <h3>Precio:${this.state.instrumento.precio}</h3>
                 </Row>
                 <br />
                 <Row>
-                  <h5>Marca:{instrumentoEncontrado[0].marca}</h5>
+                  <h5>Marca:{this.state.instrumento.marca}</h5>
                 </Row>
                 <Row>
-                  <h5>modelo:{instrumentoEncontrado[0].modelo}</h5>
+                  <h5>modelo:{this.state.instrumento.modelo}</h5>
                 </Row>
                 <br />
                 <Row>
                   <h6>Costo Envio:</h6>
                 </Row>
                 <Row>
-                  <Envio
-                    costoEnvio={instrumentoEncontrado[0].costoEnvio}
-                  ></Envio>
+                  <Envio costoEnvio={this.state.instrumento.costoEnvio}></Envio>
                 </Row>
               </Col>
             </Row>

@@ -98,3 +98,16 @@ code {
 .imagenABM {
     height: 40%;
 }
+
+.tablaModal {
+    margin: 0 auto;
+}
+
+.campo {
+    width: 30%;
+}
+
+.contenedor {
+    background-color: cyan;
+    margin-top: 10%;
+}

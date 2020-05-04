@@ -5,6 +5,7 @@ import DetalleProducto from "./components/DetalleProducto";
 import DondeEstamos from "./components/DondeEstamos";
 import Productos from "./components/Productos";
 import ABM from "./components/ABM";
+import Modal from "./components/Modal";
 
 class App extends Component {
   render() {
@@ -15,7 +16,8 @@ class App extends Component {
         <Route path="/productos" component={Productos}></Route>
         <Route path="/detalleProducto/:id" component={DetalleProducto}></Route>
         <Route path="/abm" component={ABM}></Route>
-        <Route exact path="/*" component={Home}></Route>
+        <Route path="/modal/:id" component={Modal}></Route>
+        <Route path="/*" component={Home}></Route>
       </Switch>
     );
   }

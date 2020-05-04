@@ -11,7 +11,7 @@ class Tarjeta extends Component {
               <a href={`detalleProducto/${this.props.id}`}>
                 <img
                   className="imagen"
-                  src={require(`../assets/images/${this.props.imagen}`)}
+                  src={this.props.imagen}
                   alt="Imagen del Producto"
                   align="left"
                 />
@@ -19,8 +19,7 @@ class Tarjeta extends Component {
               <Card.Title>{this.props.nombre}</Card.Title>
               <Card.Text>${this.props.precio}</Card.Text>
               <Card.Text className="envioG">
-                <img src={require(`../assets/images/camion.png`)}></img>Envio
-                Gratis a todo el pais
+                <img src={require(`../assets/images/camion.png`)}/>Envio Gratis a todo el pais
               </Card.Text>
               <Card.Text>{this.props.cantidadVendida} Vendidos</Card.Text>
             </Card.Body>
@@ -35,7 +34,7 @@ class Tarjeta extends Component {
               <a href={`detalleProducto/${this.props.id}`}>
                 <img
                   className="imagen"
-                  src={require(`../assets/images/${this.props.imagen}`)}
+                  src={this.props.imagen}
                   alt="Imagen del Producto"
                   align="left"
                 />

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Navigation from "./Navigation";
-import { instrumentos } from "../datos/instrumentos.json";
+import { Service } from "../services/service";
 import Tarjeta from "./Tarjeta";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
@@ -9,11 +9,32 @@ class Productos extends Component {
   constructor() {
     super();
     this.state = {
-      instrumentos,
+      instrumentos: [
+        {
+          id: "",
+          instrumento: "",
+          marca: "",
+          modelo: "",
+          imagen: "",
+          precio: "",
+          costoEnvio: "",
+          cantidadVendida: "",
+          descripcion: "",
+        },
+      ],
     };
+    this.Service = new Service();
   }
+
+  componentDidMount() {
+    this.Service.getAll().then((data) => {
+      this.setState({ instrumentos: data });
+      console.log(this.state.instrumentos);
+    });
+  }
+
   render() {
-    const instrumentos = this.state.instrumentos.map((instrumento, i) => {
+    const instruments = this.state.instrumentos.map((instrumento, i) => {
       return (
         <Tarjeta
           id={instrumento.id}
@@ -30,11 +51,10 @@ class Productos extends Component {
     });
     return (
       <React.Fragment>
-        <Navigation></Navigation>
-        <h2 className="titulo">Productos</h2>
+        <Navigation> </Navigation> <h2 className="titulo"> Productos </h2>{" "}
         <Container fluid="md">
-          <Col>{instrumentos}</Col>
-        </Container>
+          <Col> {instruments > 0} </Col>{" "}
+        </Container>{" "}
       </React.Fragment>
     );
   }

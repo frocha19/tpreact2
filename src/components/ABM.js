@@ -1,24 +1,42 @@
 import React, { Component } from "react";
 import Navigation from "./Navigation";
-import { instrumentos } from "../datos/instrumentos.json";
+import { Service } from "../services/service";
 
 class ABM extends Component {
   constructor() {
     super();
     this.state = {
-      instrumentos,
+      instrumentos: [
+        {
+          id: "",
+          instrumento: "",
+          marca: "",
+          modelo: "",
+          imagen: "",
+          precio: "",
+          costoEnvio: "",
+          cantidadVendida: "",
+          descripcion: "",
+        },
+      ],
     };
+    this.Service = new Service();
   }
+
+  componentDidMount() {
+    this.Service.getAll().then((data) => {
+      this.setState({ instrumentos: data });
+      console.log(this.state.instrumentos);
+    });
+  }
+
   render() {
-    const instrumentos = this.state.instrumentos.map((instrumento, i) => {
+    const instruments = this.state.instrumentos.map((instrumento, i) => {
       return (
         <tr key={instrumento.id}>
           <td>{instrumento.id}</td>
           <td>
-            <img
-              className="imagenABM"
-              src={require(`../assets/images/${instrumento.imagen}`)}
-            />
+            <img className="imagenABM" src={instrumento.imagen} />
           </td>
           <td>{instrumento.instrumento}</td>
           <td>{instrumento.marca}</td>
@@ -28,10 +46,20 @@ class ABM extends Component {
           <td>{instrumento.precio}</td>
           <td>{instrumento.costoEnvio}</td>
           <td>
-            <button type="button" className="btn btn-warning">
+            <button
+              className="btn btn-warning"
+              onClick={() => {
+                this.props.history.replace("/modal/" + instrumento.id);
+              }}
+            >
               Editar
             </button>
-            <button type="button" className="btn btn-danger">
+            <button
+              className="btn btn-danger"
+              onClick={() => {
+                this.props.history.replace("/abm");
+              }}
+            >
               Eliminar
             </button>
           </td>
@@ -44,7 +72,12 @@ class ABM extends Component {
         <div className="abmTabla">
           <h1>ABM Instrumento</h1>
           <div className="tabla">
-            <button className="btn btn-primary btn-block" type="button">
+            <button
+              className="btn btn-primary btn-block"
+              onClick={() => {
+                this.props.history.replace("/modal/0");
+              }}
+            >
               Agregar un Instrumento
             </button>
             <table className="table">
@@ -62,7 +95,7 @@ class ABM extends Component {
                   <th scope="col">Acciones</th>
                 </tr>
               </thead>
-              <tbody>{instrumentos}</tbody>
+              <tbody>{instruments > 0}</tbody>
             </table>
           </div>
         </div>
