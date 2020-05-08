@@ -6,13 +6,10 @@ import Col from "react-bootstrap/Col";
 import Nav from "react-bootstrap/Nav";
 import Card from "react-bootstrap/Card";
 import Envio from "./Envio";
-import { Service } from "../services/service";
+import Service from "../services/service";
 
 class DetalleProducto extends Component {
-  constructor() {
-    super();
-    this.Service = new Service();
-  }
+  constructor() {}
 
   state = {
     instrumento: {
@@ -29,8 +26,11 @@ class DetalleProducto extends Component {
   };
 
   componentDidMount() {
-    this.Service.getOne(this.props.match.params.id).then((data) => {
+    Service.getOne(this.props.match.params.id).then((data) => {
       this.setState({ instrumento: data });
+    })
+    .catch(e => {
+      console.log(e);
     });
   }
 
@@ -43,7 +43,11 @@ class DetalleProducto extends Component {
           <Container>
             <Row>
               <Col>
-                <img className="imagenDetalle" src={this.state.instrumento.imagen} alt="Imagen del Producto" />
+                <img
+                  className="imagenDetalle"
+                  src={this.state.instrumento.imagen}
+                  alt="Imagen del Producto"
+                />
                 <h6 className="descripcion">
                   Descripcion:
                   <br />

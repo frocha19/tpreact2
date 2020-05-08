@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Navigation from "./Navigation";
-import { Service } from "../services/service";
+import Service from "../services/service";
 import Tarjeta from "./Tarjeta";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
@@ -9,28 +9,19 @@ class Productos extends Component {
   constructor() {
     super();
     this.state = {
-      instrumentos: [
-        {
-          id: "",
-          instrumento: "",
-          marca: "",
-          modelo: "",
-          imagen: "",
-          precio: "",
-          costoEnvio: "",
-          cantidadVendida: "",
-          descripcion: "",
-        },
-      ],
+      instrumentos: [],
     };
-    this.Service = new Service();
   }
 
   componentDidMount() {
-    this.Service.getAll().then((data) => {
-      this.setState({ instrumentos: data });
-      console.log(this.state.instrumentos);
-    });
+    Service.getAll()
+      .then((data) => {
+        this.setState({ instrumentos: data });
+        console.log(this.state.instrumentos);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
   }
 
   render() {

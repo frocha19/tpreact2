@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Navigation from "./Navigation";
-import { Service } from "../services/service";
+import Service from "../services/service";
 
 class ABM extends Component {
   constructor() {
@@ -20,13 +20,15 @@ class ABM extends Component {
         },
       ],
     };
-    this.Service = new Service();
   }
 
   componentDidMount() {
-    this.Service.getAll().then((data) => {
+    Service.getAll().then((data) => {
       this.setState({ instrumentos: data });
       console.log(this.state.instrumentos);
+    })
+    .catch(e => {
+      console.log(e);
     });
   }
 
