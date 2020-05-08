@@ -6,8 +6,8 @@ import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
 
 class Productos extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       instrumentos: [],
     };
@@ -15,8 +15,8 @@ class Productos extends Component {
 
   componentDidMount() {
     Service.getAll()
-      .then((data) => {
-        this.setState({ instrumentos: data });
+      .then((response) => {
+        this.setState({ instrumentos: response.data });
         console.log(this.state.instrumentos);
       })
       .catch((e) => {

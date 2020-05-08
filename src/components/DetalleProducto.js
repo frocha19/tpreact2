@@ -9,9 +9,9 @@ import Envio from "./Envio";
 import Service from "../services/service";
 
 class DetalleProducto extends Component {
-  constructor() {}
-
-  state = {
+  constructor(props) {
+  super(props);
+  this.state = {
     instrumento: {
       id: "",
       instrumento: "",
@@ -24,14 +24,15 @@ class DetalleProducto extends Component {
       descripcion: "",
     },
   };
+}
 
   componentDidMount() {
-    Service.getOne(this.props.match.params.id).then((data) => {
-      this.setState({ instrumento: data });
+    Service.getOne(this.props.match.params.id).then((response) => {
+      this.setState({ instrumento: response.data });
     })
     .catch(e => {
       console.log(e);
-    });
+    });;
   }
 
   render() {

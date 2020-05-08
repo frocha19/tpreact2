@@ -3,8 +3,8 @@ import Navigation from "./Navigation";
 import Service from "../services/service";
 
 class ABM extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       instrumentos: [
         {
@@ -23,8 +23,8 @@ class ABM extends Component {
   }
 
   componentDidMount() {
-    Service.getAll().then((data) => {
-      this.setState({ instrumentos: data });
+    Service.getAll().then((response) => {
+      this.setState({ instrumentos: response.data });
       console.log(this.state.instrumentos);
     })
     .catch(e => {
