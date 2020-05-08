@@ -22,9 +22,8 @@ import com.example.demo.dto.DTO;
 import com.example.demo.service.IService;
 
 @RestController
-@CrossOrigin(origins = "*", methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.DELETE,
-		RequestMethod.PUT })
-@RequestMapping(path = "api/v1/instrumento")
+@CrossOrigin(origins = "http://localhost:8081")
+@RequestMapping(path = "/api")
 public class Controller {
 	private IService service;
 
@@ -90,7 +89,7 @@ public class Controller {
 		String value = "";
 		try {
 			service.saveImg(imageFile);
-			value = "..\\..\\..\\images\\" + imageFile.getOriginalFilename();
+			value = "..\\..\\..\\TP2React-backend\\src\\main\\resources\\images" + imageFile.getOriginalFilename();
 			return value;
 		} catch (Exception e) {
 			return "Error";
