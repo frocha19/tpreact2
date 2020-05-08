@@ -31,7 +31,7 @@ public class Controller {
 		this.service = service;
 	}
 
-	@GetMapping("/")
+	@GetMapping("/instrumentos")
 	@Transactional
 	public ResponseEntity getAll() {
 		try {
@@ -41,7 +41,7 @@ public class Controller {
 		}
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("/instrumentos/{id}")
 	@Transactional
 	public ResponseEntity getOne(@PathVariable int id) {
 		try {
@@ -51,7 +51,7 @@ public class Controller {
 		}
 	}
 
-	@PostMapping("/")
+	@PostMapping("/instrumentos")
 	@Transactional
 	public ResponseEntity post(@RequestBody DTO DTO) {
 		try {
@@ -61,7 +61,7 @@ public class Controller {
 		}
 	}
 
-	@PutMapping("/{id}")
+	@PutMapping("/instrumentos/{id}")
 	@Transactional
 	public ResponseEntity put(@PathVariable int id, @RequestBody DTO DTO) {
 		try {
@@ -71,11 +71,11 @@ public class Controller {
 		}
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/instrumentos/{id}")
 	@Transactional
 	public ResponseEntity delete(@PathVariable int id) {
 		try {
-			service.deleteImage(service.findById(id).getImagen());
+			//service.deleteImage(service.findById(id).getImagen());
 			service.delete(id);
 			return ResponseEntity.status(HttpStatus.OK).body("{\"Mensaje\": \"Registro borrado\"}");
 		} catch (Exception e) {
@@ -84,7 +84,7 @@ public class Controller {
 	}
 
 	// Metodos agregados
-	@PostMapping("/uploadImg")
+	@PostMapping("/instrumentos/uploadImg")
 	public String uploadImg(@RequestParam("imageFile") MultipartFile imageFile) {
 		String value = "";
 		try {
@@ -95,7 +95,7 @@ public class Controller {
 			return "Error";
 		}
 	}
-	@DeleteMapping("/deleteImg")
+	@DeleteMapping("/instrumentos/deleteImg")
 	public ResponseEntity deleteImg(@PathVariable String path) {
 		try {
 			service.deleteImage(path);
