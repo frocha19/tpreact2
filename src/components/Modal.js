@@ -1,24 +1,58 @@
 import React, { Component } from "react";
 import Service from "../services/service";
 
-class Modal extends Component {
+export class Modal extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      instrumento: [
-        {
-          id: "",
-          instrumento: "",
-          marca: "",
-          modelo: "",
-          imagen: "",
-          precio: "",
-          costoEnvio: "",
-          cantidadVendida: "",
-          descripcion: "",
-        },
-      ],
+      instrumento: [],
     };
+    this.onChangeInstrumento = this.onChangeInstrumento.bind(this);
+    this.onChangeMarca = this.onChangeMarca.bind(this);
+    this.onChangeModelo = this.onChangeModelo.bind(this);
+    this.onChangePrecio = this.onChangePrecio.bind(this);
+    this.onChangeCostoEnvio = this.onChangeCostoEnvio.bind(this);
+    this.onChangeCantidadVendida = this.onChangeCantidadVendida.bind(this);
+    this.onChangeDescripcion = this.onChangeDescripcion.bind(this);
+    this.saveInstrumento = this.saveInstrumento.bind(this);
+    this.cancelar=this.cancelar.bind(this);
+    this.uploadImagenr=this.uploadImagen.bind(this);
+  }
+
+  onChangeInstrumento(e) {
+    this.setState({
+      Iinstrumento: e.target.value
+    });
+  }
+  onChangeMarca(e) {
+    this.setState({
+      Imarca: e.target.value
+    });
+  }
+  onChangeModelo(e) {
+    this.setState({
+      Imodelo: e.target.value
+    });
+  }
+  onChangePrecio(e) {
+    this.setState({
+      Iprecio: e.target.value
+    });
+  }
+  onChangeCostoEnvio(e) {
+    this.setState({
+      Icostoenvio: e.target.value
+    });
+  }
+  onChangeCantidadVendida(e) {
+    this.setState({
+      Icantidadvendida: e.target.value
+    });
+  }
+  onChangeDescripcion(e) {
+    this.setState({
+      Idescripcion: e.target.value
+    });
   }
 
   fileSelectedHandler = (event) => {
@@ -26,63 +60,64 @@ class Modal extends Component {
   };
 
   componentDidMount() {
-    if (this.props.match.params.id > 0) {
-      Service.getOne(this.props.match.params.id).then((response) => {
-        this.setState({ instrumento: response.data });
-      })
-      .catch(e => {
-        console.log(e);
-      });
+    if (this.props.match.params.id !== 0) {
+      Service.get(this.props.match.params.id)
+        .then((response) => {
+          this.setState({ instrumento: response.data });
+        })
+        .catch((e) => {
+          console.log(e);
+        });
     }
   }
 
-  render() {
-    const guardar = (id) => {
-      if (id > 0) {
-        const instr = {
-          id: id,
-          instrumento: document.getElementById("instrumento"),
-          marca: document.getElementById("marca"),
-          modelo: document.getElementById("modelo"),
-          imagen: "otra imagen",
-          precio: document.getElementById("precio"),
-          costoEnvio: document.getElementById("costoEnvio"),
-          cantidadVendida: document.getElementById("cantidadVendida"),
-          descripcion: document.getElementById("descripcion"),
-        };
-        Service.update(id, instr);
-        //this.props.history.replace("/abm");
-      } else {
-        const instr = {
-          id: id,
-          instrumento: document.getElementById("instrumento"),
-          marca: document.getElementById("marca"),
-          modelo: document.getElementById("modelo"),
-          imagen: "otra imagen",
-          precio: document.getElementById("precio"),
-          costoEnvio: document.getElementById("costoEnvio"),
-          cantidadVendida: document.getElementById("cantidadVendida"),
-          descripcion: document.getElementById("descripcion"),
-        };
-        Service.save(instr);
-        //this.props.history.replace("/abm");
-      }
-    };
-
-    const cancelar = () => {
+  saveInstrumento(id) {
+    if (id !== 0) {
+      const instr = {
+        id: id,
+        instrumento: document.getElementById("instrumento"),
+        marca: document.getElementById("marca"),
+        modelo: document.getElementById("modelo"),
+        imagen: "otra imagen",
+        precio: document.getElementById("precio"),
+        costoEnvio: document.getElementById("costoEnvio"),
+        cantidadVendida: document.getElementById("cantidadVendida"),
+        descripcion: document.getElementById("descripcion"),
+      };
+      Service.create(instr);
       this.props.history.replace("/abm");
-    };
+    } else {
+      const instr = {
+        id: id,
+        instrumento: document.getElementById("instrumento"),
+        marca: document.getElementById("marca"),
+        modelo: document.getElementById("modelo"),
+        imagen: "otra imagen",
+        precio: document.getElementById("precio"),
+        costoEnvio: document.getElementById("costoEnvio"),
+        cantidadVendida: document.getElementById("cantidadVendida"),
+        descripcion: document.getElementById("descripcion"),
+      };
+      Service.update(id, instr);
+      this.props.history.replace("/abm");
+    }
+  };
 
-    const uploadImagen = () => {
-      var data = new FormData();
-      var imagedata = document.querySelector('input[type="file"]').files[0];
-      data.append("data", imagedata);
+  cancelar(){
+    this.props.history.replace("/abm");
+  };
 
-      fetch("http://localhost:9000/api/v1/instrumento/uploadImg", {
-        mode: "no-cors",
-        method: "POST",
-        body: data,
-      }).then(
+ uploadImagen() {
+    var data = new FormData();
+    var imagedata = document.querySelector('input[type="file"]').files[0];
+    data.append("data", imagedata);
+
+    fetch("http://localhost:8080/api/instrumentos/uploadImg", {
+      mode: "no-cors",
+      method: "POST",
+      body: data,
+    })
+      .then(
         function (res) {
           console.log(res);
         },
@@ -90,13 +125,14 @@ class Modal extends Component {
           alert("Error submitting form!");
         }
       )
-      .catch(e => {
+      .catch((e) => {
         console.log(e);
       });
-    };
+  };
 
+
+  render() {
     const titulo = "Agregar un Instrumento";
-
     return (
       <div className="container contenedor">
         <h2>{titulo}</h2>
@@ -111,6 +147,7 @@ class Modal extends Component {
               title="Escriba el Nombre del Instrumento"
               placeholder="Escriba el nombre del instrumento..."
               value={this.state.instrumento.instrumento}
+              onChange={this.onChangeInstrumento}
             />
           </span>
         </div>
@@ -125,6 +162,7 @@ class Modal extends Component {
               title="Escriba la Marca del Instrumento"
               placeholder="Escriba la marca del instrumento..."
               value={this.state.instrumento.marca}
+              onChange={this.onChangeMarca}
             />
           </span>
         </div>
@@ -139,6 +177,7 @@ class Modal extends Component {
               title="Escriba el Modelo del Instrumento"
               placeholder="Escriba el modelo del instrumento..."
               value={this.state.instrumento.modelo}
+              onChange={this.onChangeModelo}
             />
           </span>
         </div>
@@ -153,6 +192,7 @@ class Modal extends Component {
               title="Escriba el Precio del Instrumento"
               placeholder="Escriba el precio del instrumento..."
               value={this.state.instrumento.precio}
+              onChange={this.onChangePrecio}
             />
           </span>
         </div>
@@ -167,6 +207,7 @@ class Modal extends Component {
               title="Escriba un numero, si es Gratis escriba G"
               placeholder="Escriba un numero, si es Gratis escriba G..."
               value={this.state.instrumento.costoEnvio}
+              onChange={this.onChangeCostoEnvio}
             />
           </span>
         </div>
@@ -181,6 +222,7 @@ class Modal extends Component {
               id="cantidadVendida"
               title="Seleccione la Cantidad Vendida"
               value={this.state.instrumento.cantidadVendida}
+              onChange={this.onChangeCantidadVendida}
             />
           </span>
         </div>
@@ -195,17 +237,19 @@ class Modal extends Component {
               title="Escriba la Descripcion del Instrumento"
               placeholder="Escriba la descripcion del instrumento..."
               value={this.state.instrumento.descripcion}
+              onChange={this.onChangeDescripcion}
             />
           </span>
         </div>
         {this.state.instrumento.imagen && (
           <span>
-            s Nombre de la Imagen:{" "}
+            Nombre de la Imagen:{" "}
             <input
               type="text"
               name="imageFile"
               id="imageFile"
-              value={this.state.instrumento.descripcion}
+              value={this.state.instrumento.imagen}
+              onChange={this.onChangeInstrumento}
               disabled
             />
           </span>
@@ -223,11 +267,13 @@ class Modal extends Component {
                 title="Seleccione una imagen..."
               />
             </span>
-            {/* <input
-              type="button"
-              value="Guardar Imagen"
-              onClick={this.uploadImagen}
-            /> */}
+            {
+              <input
+                type="button"
+                value="Guardar Imagen"
+                onChange={this.uploadImagen}
+              />
+            }
           </form>
         )}
         {!this.state.instrumento.imagen && (
@@ -243,21 +289,21 @@ class Modal extends Component {
                 title="Seleccione una imagen..."
               />
             </span>
-            {/* <input
+            <input
               type="button"
               value="Guardar Imagen"
-              onClick={this.uploadImagen}
-            /> */}
+              onChange={this.uploadImagen}
+            />
           </form>
         )}
         <br />
         <button
           className="btn btn-primary"
-          onClick={guardar(this.props.match.params.id)}
+          onClick={this.saveInstrumento(this.props.match.params.id)}
         >
           Guardar
         </button>
-        <button className="btn btn-danger" onClick={cancelar}>
+        <button className="btn btn-danger" onClick={this.cancelar}>
           Cancelar
         </button>
       </div>

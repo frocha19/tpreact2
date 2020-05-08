@@ -17,7 +17,7 @@ class Productos extends Component {
     Service.getAll()
       .then((response) => {
         this.setState({ instrumentos: response.data });
-        console.log(this.state.instrumentos);
+        console.log(response.data[0].imagen);
       })
       .catch((e) => {
         console.log(e);
@@ -44,7 +44,7 @@ class Productos extends Component {
       <React.Fragment>
         <Navigation> </Navigation> <h2 className="titulo"> Productos </h2>{" "}
         <Container fluid="md">
-          <Col> {instruments > 0} </Col>{" "}
+          <Col> {instruments} </Col>{" "}
         </Container>{" "}
       </React.Fragment>
     );

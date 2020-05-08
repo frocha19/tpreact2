@@ -27,7 +27,7 @@ class DetalleProducto extends Component {
 }
 
   componentDidMount() {
-    Service.getOne(this.props.match.params.id).then((response) => {
+    Service.get(this.props.match.params.id).then((response) => {
       this.setState({ instrumento: response.data });
     })
     .catch(e => {
